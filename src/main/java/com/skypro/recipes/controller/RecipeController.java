@@ -16,16 +16,15 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("/getrecipe")
-   public Recipe getRecipe(@RequestParam Long idRec) {
-        return recipeService.getRecipe(idRec);
+    @GetMapping("/{id}")
+   public Recipe getRecipe(@PathVariable("id") Long idRec) {
+         return recipeService.getRecipe(idRec);
     }
 
-    @GetMapping("/addrecipe")
-    public void addNewRecipe(@RequestParam Recipe recipe) {
+    @PostMapping
+    public void addNewRecipe(@RequestBody Recipe recipe) {
         recipeService.addNewRecipe(recipe);
     }
-
 
     @GetMapping
     public  ResponseEntity<Map<Long, Recipe>> getAllRecipe()  {
@@ -36,7 +35,7 @@ public class RecipeController {
         return ResponseEntity.ok(recipeL);
     }
 
-    @PutMapping
+    @PutMapping("/{idRec}")
     public ResponseEntity<Recipe> putRecipe(@PathVariable Long idRec, @RequestBody Recipe recipe) {
         Recipe recipe1 = recipeService.putRecipe(idRec, recipe);
         if (recipe1 == null) {
@@ -44,7 +43,7 @@ public class RecipeController {
         }
         return ResponseEntity.ok(recipe);
     }
-    @DeleteMapping("/idRec")
+    @DeleteMapping("/{idRec}")
     public ResponseEntity<Void> deleteRecipe(@PathVariable Long idRec) {
         if (recipeService.deleteRecipe(idRec)) {
             return ResponseEntity.ok().build();
